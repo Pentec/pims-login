@@ -2,7 +2,6 @@
 var mongoose = require('mongoose');
 
 var authenticate = function(username, password, callback) {
-    console.log("in authenticate " + username);
     var foundUser = false;
 
     var user = mongoose.model('users');
@@ -13,8 +12,6 @@ var authenticate = function(username, password, callback) {
         }
 
         if(found) {
-            console.log("Found the user");
-            console.log("Found the password");
             foundUser = true;
             if(found.user_rights == 1)
             {
@@ -31,7 +28,6 @@ var authenticate = function(username, password, callback) {
         }
         else
         {
-            console.log("Not Found!!");
             foundUser = false;
             return callback(foundUser);
         }
