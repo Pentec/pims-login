@@ -1,4 +1,3 @@
- //Created by Ruth on 2015-07-09.
 var mongoose = require('mongoose');
 
 var authenticate = function(username, password, callback) {
@@ -13,16 +12,6 @@ var authenticate = function(username, password, callback) {
 
         if(found) {
             foundUser = true;
-            if(found.user_rights == 1)
-            {
-                console.log('User is admin');
-
-            }
-            else
-            {
-                console.log('Not admin');
-            }
-            console.log(foundUser.valueOf());
             return callback(foundUser);
 
         }
@@ -36,4 +25,38 @@ var authenticate = function(username, password, callback) {
 
 }
 
+
+var checkAdmin = function(username, password, callback) {
+    var isAdmin = false;
+
+    var user = mongoose.model('users');
+    user.findOne({username: username, password: password}, function(err, found){
+        if(err) {
+            console.log("DB error");
+            callback(err);
+        }
+
+        if(found) {
+
+            if(found.user_rights == 1)
+            {
+                isAdmin = true;
+                return callback(isAdmin);
+
+            }
+            else
+            {
+                isAdmin = false;
+                return callback(isAdmin);
+            }
+
+
+        }
+
+    });
+
+}
+
+
 module.exports.authenticate = authenticate;
+module.exports.checkAdmin = checkAdmin;
